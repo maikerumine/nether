@@ -33,7 +33,7 @@ TNG_TRANSPORTER1.ogg sound: http://www.soundboard.com/sb/sound/450170
     
 
 This mod adds quartz ore and some decorative blocks to minetest.
-                                                
+  https://forum.minetest.net/viewtopic.php?f=11&t=5682&hilit=quartz+mod                                              
 
 Crafting:
 
