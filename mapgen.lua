@@ -317,6 +317,7 @@ local c_netherrack = minetest.get_content_id("nether:rack")
 local c_netherfire = minetest.get_content_id("nether:permanent_flame")
 local c_netherdiamond = minetest.get_content_id("nether:rack_with_diamond")
 local c_quartz = minetest.get_content_id("quartz:quartz_ore")
+local c_netherquartz = minetest.get_content_id("nether:quartz_ore")
 
 
 
@@ -417,6 +418,8 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						data[vi] =  c_lava_source
 					elseif id ==  c_quartz then --Quartz
 						data[vi] =  c_quartz
+					elseif id ==  c_netherquartz then --Quartz
+						data[vi] =  c_netherquartz
 					elseif id == c_stone_with_gold or -- Precious ores to glowstone
 						id == c_stone_with_mese then
 						data[vi] = c_glowstone
