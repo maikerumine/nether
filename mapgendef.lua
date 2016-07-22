@@ -1,27 +1,31 @@
 -- Minetest 0.4 Mod: Nether
 
-local NETHER_DEPTH = -3100
+local NETHER_DEPTH = -2000
 local NETHER_AMBIENT = 6
 local nether_created = false
 
 
 
 --Mapgen stuffs
-	minetest.register_ore({
-		ore_type       = "scatter",
-		ore            = "nether:rack_with_diamond",
-		wherein        = {"default:lava_source","nether:rack","default:stone"},
-		clust_scarcity = 14 * 14 * 14,
-		clust_num_ores = 12,
-		clust_size     = 5,
-		y_min           = -31000,
-		y_max           = -3130,
-	})
 
--- maikerumines hackish nether
---The following will generate nether and bedrock limits without mapgen function.
---it is a bit slow
+
+	-- nether
 --[[
+	minetest.register_ore({
+	ore_type       = "scatter",
+	ore            = "air",
+	wherein        = {"nether:rack"},
+	clust_scarcity = 1,
+	clust_num_ores = 20,  --per node  laggy
+	clust_size     = 3, --thick
+	height_min     = -3005,
+	height_max     = -2990,
+	noise_threshhold = 1,
+	--noise_params = {offset=0, scale=1, spread={x=0.5, y=2, z=0.5}, seed=24, octaves=2, persist=1.0}  --solid
+	noise_params = {offset=0, scale=1, spread={x=1, y=2, z=1}, seed=24, octaves=2, persist=0.8}
+})
+]]
+
 	minetest.register_ore({
 		ore_type        = "blob",
 		ore             = "nether:glowstone",
@@ -247,8 +251,6 @@ minetest.register_ore({
 		humidity_point = 50,
 	})
 
-]]
-
 
 --paramats cavegen
 --hacked by maikerumine
@@ -286,7 +288,7 @@ local nbuf_cave
 -- Content ids
 
 local c_air = minetest.get_content_id("air")
-
+--[[
 local c_stone_with_coal = minetest.get_content_id("default:stone_with_coal")
 local c_stone_with_iron = minetest.get_content_id("default:stone_with_iron")
 local c_stone_with_mese = minetest.get_content_id("default:stone_with_mese")
@@ -298,11 +300,9 @@ local c_mese = minetest.get_content_id("default:mese")
 local c_gravel = minetest.get_content_id("default:gravel")
 local c_dirt = minetest.get_content_id("default:dirt")
 local c_sand = minetest.get_content_id("default:sand")
-
+]]
 local c_cobble = minetest.get_content_id("default:cobble")
 local c_mossycobble = minetest.get_content_id("default:mossycobble")
-local c_marble = minetest.get_content_id("default:marble")
-local c_granite = minetest.get_content_id("default:granite")
 local c_stair_cobble = minetest.get_content_id("stairs:stair_cobble")
 
 local c_lava_source = minetest.get_content_id("default:lava_source")
@@ -314,10 +314,6 @@ local c_glowstone = minetest.get_content_id("nether:glowstone")
 local c_nethersand = minetest.get_content_id("nether:sand")
 local c_netherbrick = minetest.get_content_id("nether:brick")
 local c_netherrack = minetest.get_content_id("nether:rack")
-local c_netherfire = minetest.get_content_id("nether:permanent_flame")
-local c_netherdiamond = minetest.get_content_id("nether:rack_with_diamond")
-local c_quartz = minetest.get_content_id("quartz:quartz_ore")
-local c_netherquartz = minetest.get_content_id("nether:quartz_ore")
 
 
 
@@ -406,25 +402,12 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						
 					elseif id == c_mese then -- Mese block to lava
 						data[vi] = c_lava_source
-					elseif id == c_stone_with_iron then -- Iron block to fire
-						data[vi] = c_netherfire
-					elseif id == c_dirt then --Dirt block to Glowstone
-						data[vi] = c_glowstone
-					elseif id == c_granite then --Dirt block to Glowstone
-						data[vi] = c_netherbrick
-					elseif id == c_stone_with_diamond then --Netherdiamonds
-						data[vi] = c_netherdiamond
-					elseif id ==  c_lava_source then --LAVA!!
-						data[vi] =  c_lava_source
-					elseif id ==  c_quartz then --Quartz
-						data[vi] =  c_quartz
-					elseif id ==  c_netherquartz then --Quartz
-						data[vi] =  c_netherquartz
 					elseif id == c_stone_with_gold or -- Precious ores to glowstone
-						id == c_stone_with_mese then
+							id == c_stone_with_mese or
+							id == c_stone_with_diamond then
 						data[vi] = c_glowstone
 					elseif id == c_gravel or -- Blob ore to nethersand
-							id == c_marble or
+							id == c_dirt or
 							id == c_sand then
 						data[vi] = c_nethersand
 					else -- All else to netherstone
@@ -449,3 +432,6 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local chugent = math.ceil((os.clock() - t1) * 1000)
 	print ("[nether] generate chunk " .. chugent .. " ms")
 end)
+
+
+
